@@ -2,6 +2,7 @@ package com.example.simpleparadox.listycity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.SparseBooleanArray;
@@ -36,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
 
         cityList = findViewById(R.id.city_list);
 
-        //String []cities ={"Edmonton", "Vancouver", "Moscow", "Sydney", "Berlin", "Vienna", "Tokyo", "Beijing", "Osaka", "New Delhi"};
 
         dataList = new ArrayList<>();
 
@@ -54,6 +54,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+
+
+        // will use this to store the city name dynamically
+        ArrayList<String> enteredCityName = new ArrayList<String>();
+
         final Button confirmButton = findViewById(R.id.button_confirm);
         confirmButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -61,6 +67,9 @@ public class MainActivity extends AppCompatActivity {
                 cityAdapter.add(cityName);
                 newName.getText().clear();
                 nameField.setVisibility(View.INVISIBLE);
+
+                // adding new cities to enteredCityName
+                enteredCityName.add(cityName);
             }
         });
 
@@ -71,7 +80,23 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
+
+
+        String []cities ={"Edmonton", "Vancouver", "Moscow",
+                "Sydney", "Berlin", "Vienna",
+                "Tokyo", "Beijing", "Osaka",
+                "New Delhi"};
+        cityList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int index, long id) {
+                Intent intent = new Intent(MainActivity.this, mysecondActivity.class);
+                // intent.putExtra("clickedItem", cities[index]);
+
+                //  this data will be send to viewDetails
+                intent.putExtra("clickedItem", enteredCityName.get(index));
+                startActivity(intent);
+            }
+        });
     }
-
-
 }
